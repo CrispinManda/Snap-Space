@@ -1,7 +1,6 @@
-// src/components/AlbumDetail.js
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Container, Button, Form } from 'react-bootstrap';
+import { Card, Container, Button, Form, Row, Col } from 'react-bootstrap';
 import { fetchPhotosByAlbum, updatePhotoTitle } from '../services/api';
 
 const AlbumDetail = () => {
@@ -39,53 +38,58 @@ const AlbumDetail = () => {
   return (
     <Container>
       <h1>Photos</h1>
-      <div className="d-flex flex-wrap">
+      <Row>
         {photos.map((photo) => (
-          <Card key={photo.id} style={{ width: '18rem', margin: '1rem' }}>
-            <Card.Img variant="top" src={photo.url} />
-            <Card.Body>
-              {editPhotoId === photo.id ? (
-                <>
-                  <Form.Group controlId={`editPhoto-${photo.id}`}>
-                    <Form.Label>Edit Title</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={newTitle}
-                      onChange={(e) => setNewTitle(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Button
-                    variant="primary"
-                    onClick={() => handleTitleUpdate(photo.id)}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    className="ml-2"
-                    onClick={() => setEditPhotoId(null)}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Card.Title>{photo.title}</Card.Title>
-                  <Button
-                    variant="warning"
-                    onClick={() => {
-                      setEditPhotoId(photo.id); // Enter edit mode for this photo
-                      setNewTitle(photo.title); // Set initial value for input
-                    }}
-                  >
-                    Edit Title
-                  </Button>
-                </>
-              )}
-            </Card.Body>
-          </Card>
+          <Col key={photo.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
+            <Card className='h-100' style={{ width: '100%' }}>
+              <Card.Img variant="top" src={photo.url} />
+              <Card.Body>
+                {editPhotoId === photo.id ? (
+                  <>
+                    <Form.Group controlId={`editPhoto-${photo.id}`}>
+                      <Form.Label>Edit Title</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={newTitle}
+                        onChange={(e) => setNewTitle(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Button
+                      variant="primary"
+                      onClick={() => handleTitleUpdate(photo.id)}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      className="ml-2"
+                      onClick={() => setEditPhotoId(null)}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Card.Title>{photo.title}</Card.Title>
+                    <Button
+                      variant="warning"
+                      onClick={() => {
+                        setEditPhotoId(photo.id); // Enter edit mode for this photo
+                        setNewTitle(photo.title); // Set initial value for input
+                      }}
+                      >
+                      Edit Title 
+                      <span > &nbsp;&nbsp;
+                        <i className="fa fa-edit" />
+                      </span>
+                    </Button>
+                  </>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
         ))}
-      </div>
+      </Row>
     </Container>
   );
 };

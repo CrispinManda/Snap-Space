@@ -8,7 +8,7 @@ const MyNavbar = () => {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar bg='dark' variant="dark" expand="lg">
       <Navbar.Brand as={Link} to="/">Album Manager</Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link as={Link} to="/">Home</Nav.Link>
