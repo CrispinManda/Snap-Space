@@ -1,0 +1,11 @@
+/* In your CSS file, e.g., styles.css */
+.background-section {
+    background-image: url('/images/bg.jpg');
+    background-size: cover;       /* Optional: cover the entire area */
+    background-position: center;   /* Optional: center the image */
+    background-repeat: no-repeat;  /* Optional: prevent repeating */
+    height: 100vh;                 /* Optional: set a height */
+    
+  }
+
+ 

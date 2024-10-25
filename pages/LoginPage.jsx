@@ -1,44 +1,59 @@
-// src/pages/LoginPage.js
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode'; // Fix: Import as a named import
+// src/pages/LoginPage.jsx
+import './LoginPage.css';
 import { Container } from 'react-bootstrap';
+import { useGoogleLogin } from "@react-oauth/google";
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
+function LoginPage() {
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const { login } = useAuth(); // Assuming this is your custom hook for managing auth
 
-  // Handle Google login success
-  const handleLoginSuccess = (credentialResponse) => {
-    try {
-      // Decode the JWT token to get user details
-      const decodedToken = jwtDecode(credentialResponse.credential);
-      
-      // Use the decoded token to log in the user
-      login(decodedToken); // Assuming login saves the user info in context
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log("Login successful:", tokenResponse);
 
-      // Redirect to home page after login
-      navigate('/home');
-    } catch (error) {
-      console.error('Error decoding token:', error);
-    }
-  };
+      localStorage.setItem('token', tokenResponse.access_token);
 
-  // Handle Google login failure
-  const handleLoginError = () => {
-    console.log('Login Failed');
-  };
+      try {
+        const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        });
+        const userInfo = await userInfoResponse.json();
+        console.log('User Info:', userInfo);
+
+        login(userInfo);
+
+        console.log('Redirecting to /home');
+        navigate('/home');
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
+    },
+    onError: (error) => {
+      console.error('Login Failed:', error);
+    },
+  });
 
   return (
-    <Container className="text-center mt-5">
-      <h1>Login</h1>
-      <GoogleLogin
-        onSuccess={handleLoginSuccess}
-        onError={handleLoginError}
-      />
+  
+    <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+      <button 
+        onClick={() => {
+          console.log("Attempting to login...");
+          googleLogin();
+        }} 
+        type="button" 
+        className="login-with-google-btn" 
+        style={{ width: '300px' }}
+      >
+        Sign in with Google
+      </button>
     </Container>
+    
   );
-};
+}
 
 export default LoginPage;

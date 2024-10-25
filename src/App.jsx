@@ -1,29 +1,25 @@
 // src/App.jsx
-// import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from '../components/Navbar'; // Navbar component
-import HomePage from '../pages/HomePage'; // Home page
-import LandingPage from '../pages/LandingPage'; // Landing page
-import LoginPage from '../pages/LoginPage'; // Login page
-import UserDetail from '../components/UserDetail'; // User detail page
-import AlbumDetail from '../components/AlbumDetail'; // Album detail page
-import PhotoDetail from '../components/PhotoDetail'; // Photo detail page
-import ProtectedRoute from '../components/ProtectedRoute'; // For route protection
-import { AuthProvider } from '../context/AuthContext'; // Auth Context Provider
-import './App.css'; // Main CSS file
+import Navbar from '../components/Navbar';
+import HomePage from '../pages/HomePage';
+import LandingPage from '../pages/LandingPage';
+import LoginPage from '../pages/LoginPage';
+import UserDetail from '../components/UserDetail';
+import AlbumDetail from '../components/AlbumDetail';
+import PhotoDetail from '../components/PhotoDetail';
+import ProtectedRoute from '../components/ProtectedRoute';
+import { AuthProvider } from '../context/AuthContext';
+import './App.css';
 
 function App() {
-  return (
+  return ( 
     <AuthProvider>
       <Router>
         <div className="App">
           <Navbar />
           <Routes>
-            {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
-
-            {/* Protected Routes */}
             <Route 
               path="/home" 
               element={

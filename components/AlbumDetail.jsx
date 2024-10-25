@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Container, Button, Form, Row, Col } from 'react-bootstrap';
+import { BeatLoader } from 'react-spinners'; // Import BeatLoader
 import { fetchPhotosByAlbum, updatePhotoTitle } from '../services/api';
 
 const AlbumDetail = () => {
@@ -8,11 +9,18 @@ const AlbumDetail = () => {
   const [photos, setPhotos] = useState([]); // Store photos of the album
   const [editPhotoId, setEditPhotoId] = useState(null); // Track the photo being edited
   const [newTitle, setNewTitle] = useState(''); // Store the new title input
+  const [loading, setLoading] = useState(true); // Track loading state
 
   useEffect(() => {
     const fetchPhotos = async () => {
-      const res = await fetchPhotosByAlbum(id);
-      setPhotos(res.data);
+      try {
+        const res = await fetchPhotosByAlbum(id);
+        setPhotos(res.data);
+        setLoading(false); // Stop loading once data is fetched
+      } catch (error) {
+        console.error('Failed to load photos', error);
+        setLoading(false); // Stop loading even if there's an error
+      }
     };
 
     fetchPhotos();
@@ -34,6 +42,16 @@ const AlbumDetail = () => {
       console.error('Failed to update title', error);
     }
   };
+
+  // Render loading spinner
+  if (loading) {
+    return (
+      <Container className="text-center mt-5">
+        <BeatLoader color="red" /> {/* Red loading spinner */}
+        <p>Loading...</p>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -77,9 +95,9 @@ const AlbumDetail = () => {
                         setEditPhotoId(photo.id); // Enter edit mode for this photo
                         setNewTitle(photo.title); // Set initial value for input
                       }}
-                      >
+                    >
                       Edit Title 
-                      <span > &nbsp;&nbsp;
+                      <span> &nbsp;&nbsp;
                         <i className="fa fa-edit" />
                       </span>
                     </Button>

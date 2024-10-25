@@ -1,7 +1,8 @@
 // src/pages/HomePage.js
 import { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners'; // Import BeatLoader
 import { fetchUsers, fetchAlbumsByUser } from '../services/api'; // Import API functions
 
 const HomePage = () => {
@@ -42,7 +43,7 @@ const HomePage = () => {
   if (loading) {
     return (
       <Container className="text-center mt-5">
-        <Spinner animation="border" />
+        <BeatLoader color="red" /> {/* BeatLoader with red color */}
         <p>Loading...</p>
       </Container>
     );
@@ -89,4 +90,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
