@@ -4,14 +4,24 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "demo": "npm run start",
+    "test": "react-scripts test",
+    "lint": "eslint src"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@react-oauth/google": "^0.12.1",
+    "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
+    "jwt-decode": "^4.0.0",
+    "mdb-react-ui-kit": "^9.0.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-bootstrap": "^2.10.5",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.0",
+    "react-spinners": "^0.13.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
